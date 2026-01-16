@@ -768,7 +768,9 @@ MIT - see [LICENSE](LICENSE)
 
 ## Credits
 
-Inspired by [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) by code-yeongyu.
+- Original: [oh-my-claude-sisyphus](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus) by Yeachan Heo
+- Inspired by [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) by code-yeongyu
+- Antigravity IDE Integration: [namtoppro](https://github.com/namtoppro) - Added `sisyphus_mcp` Python package
 
 ---
 

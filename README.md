@@ -111,7 +111,58 @@ chmod +x scripts/install.sh
 
 ---
 
-## 🎯 Configuration: Choose Global or Project Scope
+## � Antigravity IDE 설치 (NEW!)
+
+> Antigravity IDE 사용자를 위한 Python MCP 패키지
+
+### 요구 사항
+
+- Python 3.10 이상
+- Antigravity IDE
+
+### 설치 방법
+
+```bash
+# 1. 패키지 설치
+pip install git+https://github.com/namtoppro/oh-my-antigravity-sisyphus.git#subdirectory=sisyphus_mcp
+
+# 2. Antigravity에 설정 적용
+sisyphus-mcp install
+
+# 3. Antigravity IDE 재시작
+```
+
+### 사용 방법
+
+프롬프트에 `ultrawork` 키워드를 붙이면 Ultrawork 모드가 활성화됩니다:
+
+```
+ultrawork: 프로젝트의 인증 모듈을 리팩토링해주세요
+```
+
+### 지원 키워드
+
+| 키워드 | 효과 |
+|--------|------|
+| `ultrawork`, `ulw`, `uw`, `울트라워크` | 최대 성능 모드 |
+| `search`, `find`, `찾아`, `검색` | 심층 검색 모드 |
+| `analyze`, `investigate`, `분석`, `조사` | 심층 분석 모드 |
+
+### CLI 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `sisyphus-mcp install` | 설치 (자동 백업 포함) |
+| `sisyphus-mcp status` | 설치 상태 확인 |
+| `sisyphus-mcp backup` | 현재 설정 백업 |
+| `sisyphus-mcp restore [ID]` | 백업에서 복구 |
+| `sisyphus-mcp uninstall` | 제거 |
+
+> **상세 사용법**: [USAGE.md](USAGE.md) 참조
+
+---
+
+## �🎯 Configuration: Choose Global or Project Scope
 
 **After ANY installation method**, choose how you want to configure Sisyphus:
 

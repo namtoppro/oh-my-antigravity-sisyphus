@@ -33,6 +33,11 @@
 ### 설치 방법
 
 ```bash
+# 0. (권장) 가상환경 생성
+python -m venv sisyphus-env
+sisyphus-env\Scripts\activate  # Windows
+# source sisyphus-env/bin/activate  # macOS/Linux
+
 # 1. 패키지 설치
 pip install git+https://github.com/namtoppro/oh-my-antigravity-sisyphus.git#subdirectory=sisyphus_mcp
 
@@ -45,16 +50,22 @@ sisyphus-mcp install
 > [!NOTE]
 > **자동 백업**: `sisyphus-mcp install` 실행 시 기존 `GEMINI.md`와 `mcp_config.json`이 자동으로 백업됩니다.
 > 
-> **수동 백업**: 설치 전 수동으로 백업하려면:
-> ```bash
-> sisyphus-mcp backup
+> **수동 백업**: 설치 전 수동으로 백업하려면 `sisyphus-mcp backup`
+> 
+> **복구**: 문제 발생 시 `sisyphus-mcp list-backups` → `sisyphus-mcp restore [백업ID]`
+
+> [!WARNING]
+> **알려진 이슈 - fastapi 의존성 충돌**
+> 
+> 설치 시 다음 경고가 나올 수 있습니다:
+> ```
+> fastapi requires starlette<0.42.0, but you have starlette 0.51.0
 > ```
 > 
-> **복구**: 문제 발생 시 원래 상태로 복구:
-> ```bash
-> sisyphus-mcp list-backups  # 백업 목록 확인
-> sisyphus-mcp restore [백업ID]
-> ```
+> **해결 방법:**
+> - 가상환경 사용 시 → 문제 없음
+> - fastapi 사용 중 → `pip install --upgrade fastapi`
+> - fastapi 사용 안 함 → 무시해도 됨
 
 ### 사용 방법
 

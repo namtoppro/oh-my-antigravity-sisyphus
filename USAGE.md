@@ -60,6 +60,7 @@ sisyphus_verify_completion 도구를 호출해서 완료 상태를 확인해줘
 | `sisyphus-mcp restore [ID]` | 백업에서 복구 |
 | `sisyphus-mcp list-backups` | 백업 목록 |
 | `sisyphus-mcp status` | 설치 상태 확인 |
+| `sisyphus-mcp doctor` | 연결 상태 진단 |
 
 ### 예시
 
@@ -188,9 +189,9 @@ sisyphus-mcp restore 20260116_153157
 ## ❓ 문제 해결
 
 ### MCP 도구가 보이지 않아요
-1. `sisyphus-mcp status`로 설치 상태 확인
-2. Antigravity IDE 재시작
-3. `sisyphus-mcp install --force`로 재설치
+1. `sisyphus-mcp doctor` 명령어로 진단을 수행하세요.
+2. `sisyphus-mcp install --force`로 설정을 강제 갱신하세요. (최신 안정성 옵션 적용)
+3. Antigravity IDE를 완전히 종료 후 재시작하세요.
 
 ### 백업에서 복구하고 싶어요
 ```bash

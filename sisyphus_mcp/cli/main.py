@@ -35,9 +35,35 @@ BACKUP_DIR = DEFAULT_SISYPHUS_DIR / "backups"
 GEMINI_MD_TEMPLATE_URL = "https://raw.githubusercontent.com/your-repo/oh-my-antigravity-sisyphus/main/templates/GEMINI.md"
 
 
-def get_package_root() -> Path:
-    """패키지 루트 디렉토리 반환"""
-    return Path(__file__).parent.parent.parent
+def get_template_path() -> Optional[Path]:
+    """템플릿 파일 경로 반환 (pip 설치 대응)"""
+    import sys
+    
+    # 방법 1: 패키지 내부 경로 (pip 설치)
+    try:
+        import sisyphus_mcp
+        package_dir = Path(sisyphus_mcp.__file__).parent
+        template_path = package_dir / "templates" / "GEMINI.md"
+        if template_path.exists():
+            return template_path
+    except:
+        pass
+    
+    # 방법 2: 개발 환경 (소스 설치)
+    dev_path = Path(__file__).parent.parent / "templates" / "GEMINI.md"
+    if dev_path.exists():
+        return dev_path
+    
+    # 방법 3: 상위 디렉토리 탐색
+    for parent in Path(__file__).parents:
+        template_path = parent / "templates" / "GEMINI.md"
+        if template_path.exists():
+            return template_path
+        template_path = parent / "sisyphus_mcp" / "templates" / "GEMINI.md"
+        if template_path.exists():
+            return template_path
+    
+    return None
 
 
 @click.group()
@@ -381,11 +407,10 @@ def _install_gemini_md(force: bool) -> dict:
         else:
             return {"success": False, "message": "기존 GEMINI.md 존재 (--force로 덮어쓰기)"}
     
-    # 템플릿 경로
-    package_root = get_package_root()
-    template_path = package_root / "templates" / "GEMINI.md"
+    # 템플릿 경로 찾기
+    template_path = get_template_path()
     
-    if template_path.exists():
+    if template_path and template_path.exists():
         shutil.copy2(template_path, GEMINI_MD_PATH)
         return {"success": True, "message": "GEMINI.md 설치됨"}
     else:

@@ -36,11 +36,25 @@
 # 1. 패키지 설치
 pip install git+https://github.com/namtoppro/oh-my-antigravity-sisyphus.git#subdirectory=sisyphus_mcp
 
-# 2. Antigravity에 설정 적용
+# 2. Antigravity에 설정 적용 (기존 설정 자동 백업됨)
 sisyphus-mcp install
 
 # 3. Antigravity IDE 재시작
 ```
+
+> [!NOTE]
+> **자동 백업**: `sisyphus-mcp install` 실행 시 기존 `GEMINI.md`와 `mcp_config.json`이 자동으로 백업됩니다.
+> 
+> **수동 백업**: 설치 전 수동으로 백업하려면:
+> ```bash
+> sisyphus-mcp backup
+> ```
+> 
+> **복구**: 문제 발생 시 원래 상태로 복구:
+> ```bash
+> sisyphus-mcp list-backups  # 백업 목록 확인
+> sisyphus-mcp restore [백업ID]
+> ```
 
 ### 사용 방법
 

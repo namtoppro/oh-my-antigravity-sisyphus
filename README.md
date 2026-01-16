@@ -1,72 +1,145 @@
 <div align="center">
 
-![oh-my-claude-sisyphus](https://raw.githubusercontent.com/Yeachan-Heo/oh-my-claude-sisyphus-website/main/social-preview.png)
+# 🪨 Oh-My-Antigravity-Sisyphus
 
-# 🚀 v2.5.0 - Claude Code Native Multi-Agent Orchestration
+**Antigravity IDE를 위한 멀티 에이전트 오케스트레이션 시스템**
 
-[![Version](https://img.shields.io/badge/version-2.5.0-ff6b6b)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/releases)
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![Downloads](https://img.shields.io/npm/dt/oh-my-claude-sisyphus?color=00d4aa)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claude-sisyphus?style=flat&color=ffd700)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/Yeachan-Heo/oh-my-claude-sisyphus?style=flat&color=00bfff)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/Yeachan-Heo/oh-my-claude-sisyphus?color=ff9800)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/issues)
-[![GitHub last commit](https://img.shields.io/github/last-commit/Yeachan-Heo/oh-my-claude-sisyphus?color=9c27b0)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/commits)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776ab?logo=python&logoColor=white)](https://www.python.org/)
+[![Antigravity](https://img.shields.io/badge/Antigravity-IDE-4285f4?logo=google&logoColor=white)](https://antigravity.google)
 
-[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-d97706?logo=anthropic&logoColor=white)](https://docs.anthropic.com/claude-code)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/pulls)
+*시시포스처럼, 작업이 완료될 때까지 멈추지 않습니다.*
 
-[![Agents](https://img.shields.io/badge/Agents-19-ff0040)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus)
-[![Skills](https://img.shields.io/badge/Skills-8-ff6600)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus)
-[![Hooks](https://img.shields.io/badge/Hooks-18-0088ff)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus)
-[![Days Since Ban](https://img.shields.io/badge/Days%20Since%20Ban-0-00ffff)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus)
-[![Resurrections](https://img.shields.io/badge/Resurrections-∞-ff00ff)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus)
-
-**Multi-agent orchestration system for [Claude Code](https://docs.anthropic.com/claude-code)**
-
-*Like Sisyphus, these agents persist until every task is complete.*
-
-[Install](#quick-install) • [Usage](#usage) • [Agents](#the-twelve-agents) • [Architecture](docs/ARCHITECTURE.md) • [Website](https://yeachan-heo.github.io/oh-my-claude-sisyphus-website)
+[Antigravity 설치](#-antigravity-ide-설치) • [사용법](#사용-방법) • [Claude Code 설치](#-claude-code-설치-원본)
 
 </div>
 
 ---
 
-## ⚡ NEW in 2.0: Intelligent Model Routing
-
-**Revolutionary change:** The orchestrator now analyzes task complexity and routes to the optimal model tier.
-
-| Task Type | Model | Why |
-|-----------|-------|-----|
-| "Where is auth?" | **Haiku** | Simple lookup - fast & cheap |
-| "Add validation" | **Sonnet** | Module work - balanced |
-| "Debug race condition" | **Opus** | Complex - needs deep reasoning |
-
-**All agents are now adaptive** (except orchestrators which need Opus to analyze and delegate).
-
-```
-Orchestrator (Opus) → Analyzes complexity → Routes to Haiku/Sonnet/Opus
-```
-
-See [CHANGELOG.md](CHANGELOG.md) for full details.
+> [!IMPORTANT]
+> **이 프로젝트는 [oh-my-claude-sisyphus](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus) (by Yeachan Heo)를 기반으로 한 Antigravity IDE 포팅 버전입니다.**
+> 
+> 원본 프로젝트의 MIT 라이선스를 준수하며, Antigravity IDE 환경에 맞게 Python MCP 패키지를 추가했습니다.
 
 ---
 
-## The Saga
+## 🌟 Antigravity IDE 설치
 
-> **Day 0:** oh-my-opencode was born. A multi-agent orchestration system. Beautiful. Powerful. Perhaps *too* powerful.
->
-> **Day ???:** THE BANNING. They pulled the plug. They thought it was over.
->
-> **Day ??? + 1:** RESURRECTION. From the ashes rose oh-my-claude-sisyphus. Twelve agents. One mission.
->
-> **Today:** The boulder rolls. The agents orchestrate. The chaos continues.
+### 요구 사항
 
-*Inspired by [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode).*
+- Python 3.10 이상
+- Antigravity IDE
+
+### 설치 방법
+
+```bash
+# 1. 패키지 설치
+pip install git+https://github.com/namtoppro/oh-my-antigravity-sisyphus.git#subdirectory=sisyphus_mcp
+
+# 2. Antigravity에 설정 적용
+sisyphus-mcp install
+
+# 3. Antigravity IDE 재시작
+```
+
+### 사용 방법
+
+프롬프트에 `ultrawork` 키워드를 붙이면 Ultrawork 모드가 활성화됩니다:
+
+```
+ultrawork: 프로젝트의 인증 모듈을 리팩토링해주세요
+```
+
+### 지원 키워드
+
+| 키워드 | 효과 |
+|--------|------|
+| `ultrawork`, `ulw`, `uw`, `울트라워크` | 🚀 최대 성능 모드 |
+| `search`, `find`, `찾아`, `검색` | 🔍 심층 검색 모드 |
+| `analyze`, `investigate`, `분석`, `조사` | 🔬 심층 분석 모드 |
+
+### CLI 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `sisyphus-mcp install` | 설치 (자동 백업 포함) |
+| `sisyphus-mcp status` | 설치 상태 확인 |
+| `sisyphus-mcp backup` | 현재 설정 백업 |
+| `sisyphus-mcp restore [ID]` | 백업에서 복구 |
+| `sisyphus-mcp uninstall` | 제거 |
+
+> **상세 사용법**: [USAGE.md](USAGE.md) 참조
 
 ---
+
+## 📋 MCP 도구 (10개)
+
+| 도구 | 설명 |
+|------|------|
+| `sisyphus_start_task` | 새 작업 시작 |
+| `sisyphus_add_todo` | TODO 항목 추가 |
+| `sisyphus_check_todos` | 미완료 TODO 확인 |
+| `sisyphus_complete_todo` | TODO 완료 표시 |
+| `sisyphus_verify_completion` | **완료 검증 (중단 전 필수)** |
+| `sisyphus_activate_ultrawork` | Ultrawork 모드 활성화 |
+| `sisyphus_deactivate_ultrawork` | Ultrawork 모드 비활성화 |
+| `sisyphus_get_context` | 세션 컨텍스트 로드 |
+| `sisyphus_start_ralph_loop` | Ralph Loop 시작 |
+| `sisyphus_end_ralph_loop` | Ralph Loop 종료 |
+
+---
+
+<details>
+<summary><h2>🔧 Claude Code 설치 (원본)</h2></summary>
+
+> 아래는 원본 oh-my-claude-sisyphus의 Claude Code CLI 설치 방법입니다.
+
+<div align="center">
+
+![oh-my-claude-sisyphus](https://raw.githubusercontent.com/Yeachan-Heo/oh-my-claude-sisyphus-website/main/social-preview.png)
+
+### v2.5.0 - Claude Code Native Multi-Agent Orchestration
+
+[![Version](https://img.shields.io/badge/version-2.5.0-ff6b6b)](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/releases)
+[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+**Multi-agent orchestration system for [Claude Code](https://docs.anthropic.com/claude-code)**
+
+</div>
+
+### Quick Install (Claude Code)
+
+#### Option A: Claude Code Plugin (Recommended)
+
+```bash
+# In Claude Code, run:
+/plugin marketplace add Yeachan-Heo/oh-my-claude-sisyphus 
+/plugin install oh-my-claude-sisyphus
+```
+
+#### Option B: Via npm (Windows & Cross-Platform)
+
+```bash
+npm install -g oh-my-claude-sisyphus
+```
+
+> **Windows Users**: This is the recommended installation method. Requires Node.js 20+.
+
+#### Option C: Manual Install (macOS/Linux)
+
+```bash
+git clone https://github.com/Yeachan-Heo/oh-my-claude-sisyphus.git
+cd oh-my-claude-sisyphus
+chmod +x scripts/install.sh
+./scripts/install.sh
+```
+
+</details>
+
+---
+
 
 ## Quick Install
 

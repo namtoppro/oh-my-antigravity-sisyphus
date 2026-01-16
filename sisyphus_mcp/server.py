@@ -31,10 +31,21 @@ def log(msg: str):
     """디버그 로그 파일에 기록"""
     try:
         timestamp = datetime.datetime.now().isoformat()
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"[{timestamp}] {msg}\n")
+        log_line = f"[{timestamp}] {msg}"
+        
+        # 파일 로깅
+        try:
+            with open(LOG_FILE, "a", encoding="utf-8") as f:
+                f.write(log_line + "\n")
+        except:
+            pass
+            
+        # stderr로도 출력 (CLI 디버깅용)
+        # 단, JSON-RPC 통신을 방해하지 않도록 주의 (stderr는 보통 안전함)
+        print(log_line, file=sys.stderr)
+        
     except:
-        pass  # 로깅 실패는 프로그램 동작에 영향주지 않아야 함
+        pass
 
 def create_server(state_manager: StateManager | None = None) -> Server:
     """MCP 서버 인스턴스 생성"""
@@ -143,18 +154,8 @@ def run_server():
         
     log("=== SERVER STARTED ===")
     
-    # Windows에서 stdin/stdout 바이너리 모드 설정
-    if sys.platform == "win32":
-        try:
-            import msvcrt
-            import os
-            
-            log("Setting Windows binary mode for stdin/stdout")
-            msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
-            msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
-            log("Binary mode set successfully")
-        except Exception as e:
-            log(f"Failed to set binary mode: {e}")
+    # msvcrt 설정 제거 (MCP SDK 1.25.0 호환성 테스트)
+    # Windows에서 anyio와의 충돌 가능성 확인
     
     try:
         asyncio.run(run_server_async())

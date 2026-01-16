@@ -169,7 +169,24 @@ class StateManager:
         """
         todos = self._load_todos()
         
-        items = [TodoItem(**t) for t in todos]
+        items = []
+        for t in todos:
+            # status가 문자열로 저장되어 있으면 Enum으로 변환
+            status = t.get("status", "pending")
+            if isinstance(status, str):
+                try:
+                    status = TaskStatus(status)
+                except ValueError:
+                    status = TaskStatus.PENDING
+            
+            items.append(TodoItem(
+                id=t.get("id", "0"),
+                description=t.get("description", ""),
+                status=status,
+                created_at=t.get("created_at", ""),
+                completed_at=t.get("completed_at"),
+                priority=t.get("priority", 0)
+            ))
         
         if not include_completed:
             items = [t for t in items if t.status != TaskStatus.COMPLETED]

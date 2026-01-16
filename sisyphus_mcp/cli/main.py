@@ -7,6 +7,7 @@ Usage:
     sisyphus-mcp backup      # 백업 생성
     sisyphus-mcp restore     # 백업에서 복구
     sisyphus-mcp status      # 상태 확인
+    sisyphus-mcp doctor      # 연결 진단
     sisyphus-mcp list-backups # 백업 목록
 """
 
@@ -309,37 +310,153 @@ def status():
     else:
         checks.append(("MCP 설정", "❌ 없음", "red"))
     
-    # 저장소 확인
-    if DEFAULT_SISYPHUS_DIR.exists():
-        storage = Storage()
-        keys = storage.list_keys()
-        checks.append(("상태 저장소", f"✅ 활성 ({len(keys)}개 파일)", "green"))
-    else:
-        checks.append(("상태 저장소", "❌ 없음", "red"))
-    
-    # 백업 확인
-    if BACKUP_DIR.exists():
-        storage = Storage()
-        backups = storage.list_backups()
-        checks.append(("백업", f"📦 {len(backups)}개", "cyan"))
-    else:
-        checks.append(("백업", "없음", "dim"))
-    
-    # 테이블 출력
-    table = Table(show_header=False)
-    table.add_column("항목", width=15)
-    table.add_column("상태")
-    
-    for name, status, color in checks:
-        table.add_row(name, f"[{color}]{status}[/{color}]")
-    
-    console.print(table)
-    
     # 경로 정보
     console.print("\n[dim]경로:[/dim]")
     console.print(f"  GEMINI.md: {GEMINI_MD_PATH}")
     console.print(f"  MCP 설정: {MCP_CONFIG_PATH}")
     console.print(f"  저장소: {DEFAULT_SISYPHUS_DIR}")
+
+
+@cli.command()
+def doctor():
+    """MCP 서버 연결 상태 진단"""
+    import subprocess
+    import os
+    import sys
+    import time
+    import threading
+    
+    console.print(Panel.fit(
+        "[bold cyan]🩺 Sisyphus MCP 진단 도구[/bold cyan]",
+        border_style="cyan"
+    ))
+    
+    # 1. 설정 파일 확인
+    console.print("\n[yellow]1. 설정 파일 확인[/yellow]")
+    if not MCP_CONFIG_PATH.exists():
+        console.print(f"[red]✗ 설정 파일 없음: {MCP_CONFIG_PATH}[/red]")
+        return
+        
+    try:
+        with open(MCP_CONFIG_PATH, "r", encoding="utf-8") as f:
+            config = json.load(f)
+        console.print("[green]✓ 설정 파일 로드 성공[/green]")
+    except Exception as e:
+        console.print(f"[red]✗ 설정 파일 파싱 실패: {e}[/red]")
+        return
+        
+    # 2. 서버 설정 확인
+    console.print("\n[yellow]2. 서버 설정 확인[/yellow]")
+    sisyphus_conf = config.get("mcpServers", {}).get("sisyphus-hooks")
+    
+    if not sisyphus_conf:
+        console.print("[red]✗ sisyphus-hooks 설정 없음[/red]")
+        return
+        
+    cmd = sisyphus_conf.get("command")
+    args = sisyphus_conf.get("args", [])
+    env_vars = sisyphus_conf.get("env", {})
+    
+    console.print(f"  Command: {cmd}")
+    console.print(f"  Args: {args}")
+    
+    if not Path(cmd).exists():
+        console.print(f"[red]✗ 실행 파일을 찾을 수 없음: {cmd}[/red]")
+    else:
+        console.print("[green]✓ 실행 파일 확인됨[/green]")
+        
+    # 3. 서버 프로세스 테스트
+    console.print("\n[yellow]3. 서버 통신 테스트 (JSON-RPC initialize)[/yellow]")
+    
+    proc_env = os.environ.copy()
+    proc_env.update(env_vars)
+    full_cmd = [cmd] + args
+    
+    try:
+        process = subprocess.Popen(
+            full_cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=proc_env,
+            # Windows 바이너리 모드 처리 (중요)
+            text=False
+        )
+        console.print("[green]✓ 프로세스 시작됨[/green]")
+    except Exception as e:
+        console.print(f"[red]✗ 프로세스 실행 실패: {e}[/red]")
+        return
+
+    # Initialize 요청
+    init_req = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": {
+            "protocolVersion": "2024-11-05",
+            "capabilities": {},
+            "clientInfo": {"name": "sisyphus-doctor", "version": "1.0"}
+        }
+    }
+    
+    req_bytes = json.dumps(init_req).encode('utf-8') + b"\n"
+    
+    try:
+        process.stdin.write(req_bytes)
+        process.stdin.flush()
+        console.print("  → Initialize 요청 전송")
+    except Exception as e:
+        console.print(f"[red]✗ 전송 실패: {e}[/red]")
+        process.kill()
+        return
+        
+    # 응답 대기
+    def read_stderr():
+        while True:
+            line = process.stderr.readline()
+            if not line: break
+            console.print(f"[dim]  [STDERR] {line.decode('utf-8', errors='replace').strip()}[/dim]")
+            
+    threading.Thread(target=read_stderr, daemon=True).start()
+    
+    try:
+        # 3초 타임아웃
+        start_time = time.time()
+        while time.time() - start_time < 3:
+            if process.poll() is not None:
+                console.print(f"[red]✗ 프로세스가 조기 종료됨 (Exit Code: {process.returncode})[/red]")
+                break
+                
+            line = process.stdout.readline()
+            if line:
+                try:
+                    resp = json.loads(line.decode('utf-8'))
+                    if "result" in resp:
+                        console.print("[bold green]✅ 서버 초기화 응답 성공![/bold green]")
+                        console.print(f"  Server: {resp['result'].get('serverInfo', {}).get('name')}")
+                        console.print(f"  Version: {resp['result'].get('serverInfo', {}).get('version')}")
+                    elif "error" in resp:
+                        console.print(f"[red]✗ 서버 에러: {resp['error']}[/red]")
+                    else:
+                        console.print(f"[yellow]⚠ 알 수 없는 응답:[/yellow] {line}")
+                    break
+                except json.JSONDecodeError:
+                    console.print(f"[red]✗ 잘못된 JSON 응답:[/red] {line}")
+                    break
+            time.sleep(0.1)
+        else:
+             console.print("[red]✗ 응답 시간 초과 (3초)[/red]")
+             process.kill()
+             
+    except Exception as e:
+         console.print(f"[red]✗ 응답 읽기 실패: {e}[/red]")
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(timeout=1)
+            except:
+                process.kill()
 
 
 # === 헬퍼 함수 ===

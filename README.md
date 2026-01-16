@@ -91,6 +91,7 @@ ultrawork: 프로젝트의 인증 모듈을 리팩토링해주세요
 | `sisyphus-mcp status` | 설치 상태 확인 |
 | `sisyphus-mcp backup` | 현재 설정 백업 |
 | `sisyphus-mcp restore [ID]` | 백업에서 복구 |
+| `sisyphus-mcp doctor` | 🩺 연결 상태 진단 (문제 해결용) |
 | `sisyphus-mcp uninstall` | 제거 |
 
 > **상세 사용법**: [USAGE.md](USAGE.md) 참조

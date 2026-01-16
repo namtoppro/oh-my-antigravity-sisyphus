@@ -544,9 +544,15 @@ def _install_mcp_config(force: bool) -> dict:
     
     sisyphus_config = {
         "command": python_path,
-        "args": ["-m", "sisyphus_mcp.server"],
+        "args": [
+            "-u",           # Unbuffered stdout/stderr
+            "-W", "ignore", # RuntimeWarning 숨김
+            "-m", "sisyphus_mcp.server"
+        ],
         "env": {
-            "SISYPHUS_STATE_DIR": str(DEFAULT_SISYPHUS_DIR)
+            "SISYPHUS_STATE_DIR": str(DEFAULT_SISYPHUS_DIR),
+            "PYTHONUTF8": "1",           # UTF-8 모드 강제
+            "PYTHONIOENCODING": "utf-8"  # IO 인코딩 강제
         }
     }
     

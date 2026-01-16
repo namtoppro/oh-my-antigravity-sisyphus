@@ -92,19 +92,45 @@ def create_server(state_manager: StateManager | None = None) -> Server:
 
 async def run_server_async():
     """비동기 서버 실행"""
-    server = create_server()
+    import sys
     
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(
-            read_stream,
-            write_stream,
-            server.create_initialization_options()
-        )
+    try:
+        server = create_server()
+        
+        # 초기화 옵션 설정
+        init_options = server.create_initialization_options()
+        
+        async with stdio_server() as (read_stream, write_stream):
+            await server.run(
+                read_stream,
+                write_stream,
+                init_options
+            )
+    except Exception as e:
+        # 에러 로깅 (stderr로 출력하여 stdout 오염 방지)
+        import sys
+        print(f"Server error: {e}", file=sys.stderr)
+        raise
 
 
 def run_server():
     """서버 실행 (동기 진입점)"""
-    asyncio.run(run_server_async())
+    import sys
+    
+    # Windows에서 stdin/stdout 바이너리 모드 설정
+    if sys.platform == "win32":
+        import msvcrt
+        import os
+        msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
+        msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
+    
+    try:
+        asyncio.run(run_server_async())
+    except KeyboardInterrupt:
+        pass
+    except Exception as e:
+        print(f"Fatal error: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

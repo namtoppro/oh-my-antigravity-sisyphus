@@ -1,0 +1,55 @@
+# Oh-My-Antigravity-Sisyphus MCP Server
+
+> 🪨 Antigravity IDE를 위한 멀티 에이전트 오케스트레이션 MCP 서버
+
+## 설치
+
+### 방법 1: pip 설치 (권장)
+```bash
+pip install sisyphus-mcp
+sisyphus-mcp install
+```
+
+### 방법 2: 소스에서 설치
+```bash
+git clone https://github.com/your-repo/oh-my-antigravity-sisyphus.git
+cd oh-my-antigravity-sisyphus/sisyphus_mcp
+pip install -e .
+sisyphus-mcp install
+```
+
+## CLI 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `sisyphus-mcp install` | 설치 및 설정 (자동 백업 포함) |
+| `sisyphus-mcp uninstall` | 설정 제거 (복구 옵션 제공) |
+| `sisyphus-mcp backup` | 현재 설정 백업 |
+| `sisyphus-mcp restore [backup_id]` | 이전 백업으로 복구 |
+| `sisyphus-mcp status` | 설치 상태 확인 |
+| `sisyphus-mcp list-backups` | 백업 목록 조회 |
+
+## MCP 도구
+
+설치 후 Antigravity에서 사용 가능한 도구:
+
+| 도구 | 설명 |
+|------|------|
+| `sisyphus_start_task` | 새 작업 시작 및 상태 초기화 |
+| `sisyphus_check_todos` | 미완료 TODO 확인 |
+| `sisyphus_verify_completion` | 완료 상태 검증 |
+| `sisyphus_activate_ultrawork` | Ultrawork 모드 활성화 |
+| `sisyphus_get_context` | 세션 컨텍스트 로드 |
+
+## 설정 파일 위치
+
+| 파일 | 경로 |
+|------|------|
+| GEMINI.md | `~/.gemini/GEMINI.md` |
+| MCP 설정 | `~/.gemini/antigravity/mcp_config.json` |
+| 상태 저장소 | `~/.gemini/.sisyphus/` |
+| 백업 디렉토리 | `~/.gemini/.sisyphus/backups/` |
+
+## 라이선스
+
+MIT License

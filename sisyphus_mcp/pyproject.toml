@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sisyphus-mcp"
+version = "1.0.0"
+description = "Multi-agent orchestration MCP server for Antigravity IDE"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "click>=8.0.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+sisyphus-mcp = "sisyphus_mcp.cli.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/your-repo/oh-my-antigravity-sisyphus"
+Documentation = "https://github.com/your-repo/oh-my-antigravity-sisyphus#readme"
+Repository = "https://github.com/your-repo/oh-my-antigravity-sisyphus"
+Issues = "https://github.com/your-repo/oh-my-antigravity-sisyphus/issues"
+
+[tool.setuptools.packages.find]
+where = [".."]
+include = ["sisyphus_mcp", "sisyphus_mcp.*"]
+exclude = ["tests*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I", "N", "B", "C4"]
+ignore = ["E501"]

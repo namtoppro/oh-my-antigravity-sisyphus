@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+sisyphus_mcp.egg-info/PKG-INFO
+sisyphus_mcp.egg-info/SOURCES.txt
+sisyphus_mcp.egg-info/dependency_links.txt
+sisyphus_mcp.egg-info/entry_points.txt
+sisyphus_mcp.egg-info/requires.txt
+sisyphus_mcp.egg-info/top_level.txt
